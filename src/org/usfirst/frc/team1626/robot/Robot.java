@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -39,6 +40,8 @@ public class Robot extends IterativeRobot {
 	private Talon leftSideMotor;
 	private Talon rightSideMotor;
 	
+	private DoubleSolenoid testSolenoid;  
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -57,6 +60,8 @@ public class Robot extends IterativeRobot {
 		rightSideMotor = new Talon(2);
 		
 		mainDrive = new RobotDrive(leftSideMotor, rightSideMotor); 
+		
+		testSolenoid = new DoubleSolenoid(1,2);
 	}
 
 	/**
@@ -127,6 +132,10 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		
 		mainDrive.tankDrive(driveStickLeft, driveStickRight);
+		
+		// testSolenoid.set(DoubleSolenoid.Value.kOff);
+		// testSolenoid.set(DoubleSolenoid.Value.kForward);
+		// testSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
 
 	/**
