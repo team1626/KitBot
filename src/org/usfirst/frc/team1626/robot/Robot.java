@@ -2,6 +2,10 @@
 package org.usfirst.frc.team1626.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Talon;
+
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -21,11 +25,20 @@ import org.usfirst.frc.team1626.robot.subsystems.ExampleSubsystem;
 public class Robot extends IterativeRobot {
 
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
-	public static OI oi;
+	public static OI oi;	
 
 	Command autonomousCommand;
-	SendableChooser<Command> chooser = new SendableChooser<>();
+	SendableChooser<Command> chooser = new SendableChooser<>();	
+	
+	private Joystick driveStickLeft;
+	private Joystick driveStickRight;
+	
+	private RobotDrive mainDrive;
 
+	//Driving Talons
+	private Talon leftSideMotor;
+	private Talon rightSideMotor;
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -36,6 +49,14 @@ public class Robot extends IterativeRobot {
 		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
+		
+		driveStickLeft = new Joystick(1);
+		driveStickRight = new Joystick(2);
+		
+		leftSideMotor = new Talon(1);
+		rightSideMotor = new Talon(2);
+		
+		mainDrive = new RobotDrive(leftSideMotor, rightSideMotor); 
 	}
 
 	/**
@@ -104,6 +125,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		
+		mainDrive.tankDrive(driveStickLeft, driveStickRight);
 	}
 
 	/**
