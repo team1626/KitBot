@@ -132,7 +132,6 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		
 		mainDrive.tankDrive(driveStickLeft, driveStickRight);
-		
 		// testSolenoid.set(DoubleSolenoid.Value.kOff);
 		// testSolenoid.set(DoubleSolenoid.Value.kForward);
 		// testSolenoid.set(DoubleSolenoid.Value.kReverse);
