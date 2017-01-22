@@ -32,7 +32,6 @@ public class Robot extends IterativeRobot {
 	private Joystick rightTrigger;
 	
 	private RobotDrive mainDrive;
-	private XboxController xbox; 
 
 	//Driving Talons
 	private Talon leftSideMotor;
@@ -101,8 +100,10 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		
 		// Getting Joystick values
-		double leftAxisValue = leftTrigger.getRawAxis(2);
-		double rightAxisValue = rightTrigger.getRawAxis(5);
+		double leftAxisValue = -(leftTrigger.getRawAxis(2));
+		double rightAxisValue = -(rightTrigger.getRawAxis(5));
+		
+		
 		
 		mainDrive.tankDrive(leftAxisValue, rightAxisValue);
 		// testSolenoid.set(DoubleSolenoid.Value.kOff);

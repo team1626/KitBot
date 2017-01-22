@@ -39,4 +39,5 @@ public class OI {
 	
 	public static Joystick leftTrigger;
 	public static Joystick rightTrigger;
+	
 }
