@@ -4,9 +4,7 @@ package org.usfirst.frc.team1626.robot;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 import edu.wpi.first.wpilibj.Joystick;
-
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.XboxController;
 
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -87,10 +85,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
+		// Autonomous stops running when teleop starts running
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 	}
@@ -102,8 +97,6 @@ public class Robot extends IterativeRobot {
 		// Getting Joystick values
 		double leftAxisValue = -(leftTrigger.getRawAxis(2));
 		double rightAxisValue = -(rightTrigger.getRawAxis(5));
-		
-		
 		
 		mainDrive.tankDrive(leftAxisValue, rightAxisValue);
 		// testSolenoid.set(DoubleSolenoid.Value.kOff);
