@@ -4,52 +4,68 @@ package org.usfirst.frc.team1626.robot;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.RobotDrive;
 
 import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+// import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 // import org.usfirst.frc.team1626.robot.commands.ExampleCommand;
 import org.usfirst.frc.team1626.robot.subsystems.ExampleSubsystem;
-
+/**
+ * Kitbot - This is a simple iterative robot with a TankDrive and
+ * a simple extending piston controlled by an XboxController
+ * 
+ * @author Rohan Mishra & Team 1626
+ * @version 1.0
+ */
 public class Robot extends IterativeRobot {
-
-	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+	
+	// Decided to do build this robot without separate commands or
+	// subsystems in order to speed up development
 	public static OI oi;	
 
-	Command autonomousCommand;
-	SendableChooser<Command> chooser = new SendableChooser<>();
-	
+	// Driver Controller
 	private Joystick leftTrigger;
 	private Joystick rightTrigger;
+	private XboxController xbox;
 	
 	private RobotDrive mainDrive;
 
-	//Driving Talons
-	private Talon leftSideMotor;
-	private Talon rightSideMotor;
+	// Driving Talons
+	private Talon frontLeftSide;
+	private Talon rearLeftSide;
+	private Talon frontRightSide;
+	private Talon rearRightSide;
 	
-	private DoubleSolenoid testSolenoid;  
+	// private DoubleSolenoid testSolenoid;
 	
 	@Override
 	public void robotInit() {
-		oi = new OI();
+		// load subsystems before, commands after - don't move it or you'll
+		// get a lot of errors. This code does not have either so
+		// I kept it before everything just as a precaution
+		oi               = new OI();
 
-		testSolenoid = new DoubleSolenoid(1,2);
+		// testSolenoid = new DoubleSolenoid(1,2);
 		
-		leftTrigger = new Joystick(1);
-		rightTrigger = new Joystick(1);
+		leftTrigger      = new Joystick(1);
+		rightTrigger     = new Joystick(1);
+		xbox             = new XboxController(1);
+				
+		frontLeftSide    = new Talon(0);
+		rearLeftSide     = new Talon(1);
+		frontRightSide   = new Talon(2);
+		rearRightSide    = new Talon(3);
 		
-		leftSideMotor = new Talon(1);
-		rightSideMotor = new Talon(2);
-		
-		mainDrive = new RobotDrive(leftSideMotor, rightSideMotor); 
+		mainDrive        = new RobotDrive(frontLeftSide, rearLeftSide, frontRightSide, rearRightSide); 
 	}
 
 	@Override
@@ -64,18 +80,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
-
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
-		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
-			autonomousCommand.start();
+		
 	}
 
 	@Override
@@ -85,9 +90,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-		// Autonomous stops running when teleop starts running
-		if (autonomousCommand != null)
-			autonomousCommand.cancel();
+		
 	}
 
 	@Override
@@ -95,13 +98,14 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		
 		// Getting Joystick values
-		double leftAxisValue = -(leftTrigger.getRawAxis(2));
-		double rightAxisValue = -(rightTrigger.getRawAxis(5));
+		double leftAxisValue = leftTrigger.getRawAxis(2);
+		double rightAxisValue = rightTrigger.getRawAxis(5);
 		
 		mainDrive.tankDrive(leftAxisValue, rightAxisValue);
-		// testSolenoid.set(DoubleSolenoid.Value.kOff);
-		// testSolenoid.set(DoubleSolenoid.Value.kForward);
-		// testSolenoid.set(DoubleSolenoid.Value.kReverse);
+		
+		if (xbox.getRawButton(1) == true) {
+			
+		}
 	}
 
 	@Override
