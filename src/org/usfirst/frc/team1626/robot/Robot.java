@@ -46,6 +46,10 @@ public class Robot extends IterativeRobot {
 	private Talon frontRightSide;
 	private Talon rearRightSide;
 	
+	// Echo code
+	int autoLoopCounter;
+	ActionRecorder actions;
+	
 	// private DoubleSolenoid testSolenoid;
 	
 	@Override
@@ -67,6 +71,15 @@ public class Robot extends IterativeRobot {
 		rearRightSide    = new Talon(3);
 		
 		mainDrive        = new RobotDrive(frontLeftSide, rearLeftSide, frontRightSide, rearRightSide); 
+			
+		// Autonomous
+		actions.setMethod(this, "robotOperation", DriverInput.class).
+			setUpButton(rightTrigger, 1).
+			setDownButton(rightTrigger, 2).
+			setRecordButton(rightTrigger, 2);
+		DriverInput.nameInput("X-Axis");
+		DriverInput.nameInput("Y-Axis");
+		DriverInput.nameInput("Z-Axis");
 	}
 
 	@Override
@@ -81,7 +94,8 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-		
+		autoLoopCounter = 0;
+		actions.autonomousInit();
 	}
 
 	@Override
