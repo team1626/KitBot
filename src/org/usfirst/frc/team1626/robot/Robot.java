@@ -104,7 +104,7 @@ public class Robot extends IterativeRobot {
 		mainDrive.tankDrive(leftAxisValue, rightAxisValue);
 		
 		if (xbox.getRawButton(1) == true) {
-			
+			System.out.print("Boiiii");
 		}
 	}
 
