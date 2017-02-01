@@ -42,7 +42,7 @@ public class DriverInput
 		}
 		long FPGAtime=Utility.getFPGATime();
 		timeOffset=FPGAtime-recordStart;
-//		System.out.println("Driver input offset is " + timeOffset + " = " + FPGAtime + " - " + recordStart);
+        // System.out.println("Driver input offset is " + timeOffset + " = " + FPGAtime + " - " + recordStart);
 	}
 	
 	public Object getInput(String name)
@@ -68,7 +68,7 @@ public class DriverInput
 	
 	public static void setRecordTime()
 	{
-		recordStart=Utility.getFPGATime();
+		recordStart = Utility.getFPGATime();
 		System.out.println("recordStart is " + recordStart);
 	}
 }

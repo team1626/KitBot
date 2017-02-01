@@ -1,25 +1,22 @@
 package org.usfirst.frc.team1626.robot;
 
-import java.lang.reflect.Method;
-
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Timer;
 
 import edu.wpi.first.wpilibj.Talon;
 // import edu.wpi.first.wpilibj.DoubleSolenoid;
 
-import edu.wpi.first.wpilibj.command.Command;
+// import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+// import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import org.usfirst.frc.team1626.robot.commands.ExampleCommand;
-import org.usfirst.frc.team1626.robot.subsystems.ExampleSubsystem;
+// import org.usfirst.frc.team1626.robot.subsystems.ExampleSubsystem;
 /**
  * Kitbot - This is a simple iterative robot with a TankDrive and
  * a simple extending piston controlled by an XboxController
@@ -72,14 +69,13 @@ public class Robot extends IterativeRobot {
 		
 		mainDrive        = new RobotDrive(frontLeftSide, rearLeftSide, frontRightSide, rearRightSide); 
 			
-		// Autonomous
+		// Autonomous Recorder
 		actions.setMethod(this, "robotOperation", DriverInput.class).
 			setUpButton(rightTrigger, 1).
 			setDownButton(rightTrigger, 2).
 			setRecordButton(rightTrigger, 2);
-		DriverInput.nameInput("X-Axis");
-		DriverInput.nameInput("Y-Axis");
-		DriverInput.nameInput("Z-Axis");
+		DriverInput.nameInput("Left-Trigger-Y-Axis");
+		DriverInput.nameInput("Right-Trigger-Y-Axis");
 	}
 
 	@Override
@@ -101,11 +97,26 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		try
+		{
+			if (actions != null)
+			{
+                // actions.playback();
+				actions.longPlayback(this, -1);
+			} else
+			{
+				Timer.delay(0.010);
+			}
+		} catch (Exception e)
+		{
+			System.out.println("AP: " + e.toString());
+		}
 	}
 
 	@Override
 	public void teleopInit() {
-		
+		DriverInput.setRecordTime();
+		actions.teleopInit();
 	}
 
 	@Override
@@ -118,7 +129,8 @@ public class Robot extends IterativeRobot {
 		
 		mainDrive.tankDrive(leftAxisValue, rightAxisValue);
 		
-		if (xbox.getRawButton(1) == true) {
+		if (xbox.getAButton() == true) 
+		{
 			System.out.print("Boiiii");
 		}
 	}

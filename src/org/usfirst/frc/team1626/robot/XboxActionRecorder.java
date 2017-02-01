@@ -19,10 +19,10 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class ActionRecorder
+public class XboxActionRecorder
 {
-	private boolean recording        = false;
-	private boolean recordingReady   = false;
+	private boolean recording = false;
+	private boolean recordingReady = false;
 	private long playbackStart;
 	private List<DriverInput> driverInputs;
 	private Iterator<DriverInput> playbackIterator;
@@ -33,7 +33,7 @@ public class ActionRecorder
 	private StateButton recordButton;
 	private List<File> autoFileList;
 	private int autoFileIndex;
-	private File fileToRecord        = null;
+	private File fileToRecord = null;
 
 	// For timing accuracy measurements
 	private long Sx    = 0;
@@ -66,7 +66,7 @@ public class ActionRecorder
 		}
 	}
 
-	public ActionRecorder()
+	public XboxActionRecorder()
 	{
 		recording        = false;
 		recordingReady   = false;
@@ -90,7 +90,7 @@ public class ActionRecorder
 	}
 
 	@SuppressWarnings("rawtypes")
-	public ActionRecorder setMethod(Object obj, String methodName,  Class... args)
+	public XboxActionRecorder setMethod(Object obj, String methodName,  Class... args)
 	{
 		Method method;
 		if ((method=lookUpMethod(obj, methodName, args)) != null)
@@ -101,23 +101,23 @@ public class ActionRecorder
 		return this;
 	}
 
-	public ActionRecorder setController(Joystick stick)
+	public XboxActionRecorder setController(Joystick stick)
 	{
 		return this;
 	}
 
-	public ActionRecorder setUpButton(Joystick stick, int up)
+	public XboxActionRecorder setUpButton(Joystick stick, int up)
 	{
 		upButton = new StateButton(stick, up);
 		return this;
 	}
 
-	public ActionRecorder setDownButton(Joystick stick, int down)
+	public XboxActionRecorder setDownButton(Joystick stick, int down)
 	{
 		downButton = new StateButton(stick, down);
 		return this;
 	}
-	public ActionRecorder setRecordButton(Joystick stick, int rec)
+	public XboxActionRecorder setRecordButton(Joystick stick, int rec)
 	{
 		recordButton = new StateButton(stick, rec);
 		return this;
