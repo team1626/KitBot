@@ -74,11 +74,11 @@ public class Robot extends IterativeRobot {
 		mainDrive        = new RobotDrive(frontLeftSide, rearLeftSide, frontRightSide, rearRightSide);
 		
 		// Motors
-		feederMotor = new Spark(4);
-		shooterMotor = new Talon(5);
+		feederMotor      = new Spark(4);
+		shooterMotor     = new Talon(5);
 		
 		// Solenoids
-		testSolenoid = new DoubleSolenoid(1,2);
+		testSolenoid     = new DoubleSolenoid(1,2);
 			
 		// Autonomous Recorder
 		actions.setMethod(this, "robotOperation", DriverInput.class).
