@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
 
 import edu.wpi.first.wpilibj.Talon;
-// import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 // import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -43,6 +44,11 @@ public class Robot extends IterativeRobot {
 	private Talon frontRightSide;
 	private Talon rearRightSide;
 	
+	// Motors
+	private DoubleSolenoid testSolenoid;
+	private Spark feederMotor;
+	private Talon shooterMotor;
+	
 	// Echo code
 	int autoLoopCounter;
 	XboxActionRecorder actions;
@@ -56,8 +62,6 @@ public class Robot extends IterativeRobot {
 		// I kept it before everything just as a precaution
 		oi               = new OI();
 
-		// testSolenoid = new DoubleSolenoid(1,2);
-		
 		leftTrigger      = new Joystick(1);
 		rightTrigger     = new Joystick(1);
 		xbox             = new XboxController(1);
@@ -67,7 +71,14 @@ public class Robot extends IterativeRobot {
 		frontRightSide   = new Talon(2);
 		rearRightSide    = new Talon(3);
 		
-		mainDrive        = new RobotDrive(frontLeftSide, rearLeftSide, frontRightSide, rearRightSide); 
+		mainDrive        = new RobotDrive(frontLeftSide, rearLeftSide, frontRightSide, rearRightSide);
+		
+		// Motors
+		feederMotor = new Spark(4);
+		shooterMotor = new Talon(5);
+		
+		// Solenoids
+		testSolenoid = new DoubleSolenoid(1,2);
 			
 		// Autonomous Recorder
 		actions.setMethod(this, "robotOperation", DriverInput.class).
@@ -129,9 +140,27 @@ public class Robot extends IterativeRobot {
 		
 		mainDrive.tankDrive(leftAxisValue, rightAxisValue);
 		
-		if (xbox.getAButton() == true) 
-		{
-			System.out.print("Boiiii");
+		if (xbox.getAButton() == true) {
+			  // testSolenoid.set(DoubleSolenoid.Value.kReverse);
+			  feederMotor.set(-.99);
+		} else if (xbox.getBButton() == true) {
+			feederMotor.set(.99);
+		} else {
+			feederMotor.set(0);
+		}
+					
+		if (xbox.getXButton() == true) {
+			shooterMotor.set(.99);
+		} else if (xbox.getYButton() == true) {
+			shooterMotor.set(-.99); 
+		} else {
+			shooterMotor.set(0);
+		}
+					
+		if (xbox.getBumper() == true) {
+			testSolenoid.set(DoubleSolenoid.Value.kForward);
+		} else {
+			testSolenoid.set(DoubleSolenoid.Value.kReverse);
 		}
 	}
 

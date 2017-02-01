@@ -45,7 +45,6 @@ public class XboxActionRecorder
 	public class StateButton
 	{
 		private int buttonNumber;
-		// private Joystick controller;
 		private boolean prevState;
 		private XboxController controller;
 
