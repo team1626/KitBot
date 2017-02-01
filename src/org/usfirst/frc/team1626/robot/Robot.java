@@ -45,7 +45,7 @@ public class Robot extends IterativeRobot {
 	
 	// Echo code
 	int autoLoopCounter;
-	ActionRecorder actions;
+	XboxActionRecorder actions;
 	
 	// private DoubleSolenoid testSolenoid;
 	
@@ -71,9 +71,9 @@ public class Robot extends IterativeRobot {
 			
 		// Autonomous Recorder
 		actions.setMethod(this, "robotOperation", DriverInput.class).
-			setUpButton(rightTrigger, 1).
-			setDownButton(rightTrigger, 2).
-			setRecordButton(rightTrigger, 2);
+			setUpButton(xbox, 1).
+			setDownButton(xbox, 2).
+			setRecordButton(xbox, 3);
 		DriverInput.nameInput("Left-Trigger-Y-Axis");
 		DriverInput.nameInput("Right-Trigger-Y-Axis");
 	}
