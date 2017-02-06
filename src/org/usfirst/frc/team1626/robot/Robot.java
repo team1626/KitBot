@@ -32,22 +32,25 @@ public class Robot extends IterativeRobot {
 	public static OI oi;	
 
 	// Driver Controller
-	private Joystick leftTrigger;
-	private Joystick rightTrigger;
+	// private Joystick leftTrigger;
+	// private Joystick rightTrigger;
 	private XboxController xbox;
 	
 	private RobotDrive mainDrive;
 
 	// Driving Talons
-	private Talon frontLeftSide;
-	private Talon rearLeftSide;
-	private Talon frontRightSide;
-	private Talon rearRightSide;
+	// private Talon frontLeftSide;
+	// private Talon rearLeftSide;
+	// private Talon frontRightSide;
+	// private Talon rearRightSide;
 	
-	// Motors
-	private DoubleSolenoid testSolenoid;
-	private Spark feederMotor;
+	private Talon winchMotor;
+	private Talon pickUpMotor;
 	private Talon shooterMotor;
+	private Talon shooterMotorTwo;
+	
+	private DoubleSolenoid shooterSolenoidOne;
+	private DoubleSolenoid shooterSolenoidTwo;
 	
 	// Echo code
 	int autoLoopCounter;
@@ -60,33 +63,34 @@ public class Robot extends IterativeRobot {
 		// load subsystems before, commands after - don't move it or you'll
 		// get a lot of errors. This code does not have either so
 		// I kept it before everything just as a precaution
+		
+		// TODO Use the right robot type ripppp
 		oi               = new OI();
-
-		leftTrigger      = new Joystick(1);
-		rightTrigger     = new Joystick(1);
+		
+		// leftTrigger      = new Joystick(1);
+		// rightTrigger     = new Joystick(1);
 		xbox             = new XboxController(1);
-				
-		frontLeftSide    = new Talon(0);
-		rearLeftSide     = new Talon(1);
-		frontRightSide   = new Talon(2);
-		rearRightSide    = new Talon(3);
 		
-		mainDrive        = new RobotDrive(frontLeftSide, rearLeftSide, frontRightSide, rearRightSide);
+		// Drive Controllers
+		// frontLeftSide    = new Talon(0);
+		// rearLeftSide     = new Talon(1);
+		// frontRightSide   = new Talon(2);
+		// rearRightSide    = new Talon(3);
+		// mainDrive        = new RobotDrive(frontLeftSide, rearLeftSide, frontRightSide, rearRightSide);
 		
-		// Motors
-		feederMotor      = new Spark(4);
+		// Talons
+		pickUpMotor      = new Talon(4);
+		winchMotor 	     = new Talon(6);
 		shooterMotor     = new Talon(5);
+		shooterMotorTwo  = new Talon(3);
 		
-		// Solenoids
-		testSolenoid     = new DoubleSolenoid(1,2);
+		shooterSolenoidOne = new DoubleSolenoid(0,1);
+		// shooterSolenoidTwo = new DoubleSolenoid();
 			
 		// Autonomous Recorder
-		actions.setMethod(this, "robotOperation", DriverInput.class).
-			setUpButton(xbox, 1).
-			setDownButton(xbox, 2).
-			setRecordButton(xbox, 3);
-		DriverInput.nameInput("Left-Trigger-Y-Axis");
-		DriverInput.nameInput("Right-Trigger-Y-Axis");
+		actions.setMethod(this, "robotOperation", DriverInput.class).setUpButton(xbox, 1).setDownButton(xbox, 2).setRecordButton(xbox, 3);
+//		DriverInput.nameInput("Left-Trigger-Y-Axis");
+//		DriverInput.nameInput("Right-Trigger-Y-Axis");
 	}
 
 	@Override
@@ -126,8 +130,8 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-		DriverInput.setRecordTime();
-		actions.teleopInit();
+//		DriverInput.setRecordTime();
+//		actions.teleopInit();
 	}
 
 	@Override
@@ -135,33 +139,47 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		
 		// Getting Joystick values
-		double leftAxisValue = leftTrigger.getRawAxis(2);
-		double rightAxisValue = rightTrigger.getRawAxis(5);
+		//double leftAxisValue = leftTrigger.getRawAxis(2);
+		//double rightAxisValue = rightTrigger.getRawAxis(5);
 		
-		mainDrive.tankDrive(leftAxisValue, rightAxisValue);
+		// mainDrive.tankDrive(leftAxisValue, rightAxisValue);
 		
 		if (xbox.getAButton() == true) {
-			  // testSolenoid.set(DoubleSolenoid.Value.kReverse);
-			  feederMotor.set(-.99);
+			// testSolenoid.set(DoubleSolenoid.Value.kReverse);
+			pickUpMotor.set(-.99);
 		} else if (xbox.getBButton() == true) {
-			feederMotor.set(.99);
+			pickUpMotor.set(.99);
 		} else {
-			feederMotor.set(0);
+			pickUpMotor.set(0);
 		}
 					
 		if (xbox.getXButton() == true) {
 			shooterMotor.set(.99);
+			shooterMotorTwo.set(.99);
 		} else if (xbox.getYButton() == true) {
-			shooterMotor.set(-.99); 
+			shooterMotor.set(-.99);
+			shooterMotorTwo.set(-.99);
 		} else {
 			shooterMotor.set(0);
+			shooterMotorTwo.set(0);
+		}
+		
+		if (xbox.getStickButton() == true && xbox.getAButton() == true) {
+			// testSolenoid.set(DoubleSolenoid.Value.kReverse);
+			winchMotor.set(-.99);
+		} else if (xbox.getStickButton() == true && xbox.getBButton() == true) {
+			winchMotor.set(.99);
+		} else {
+			winchMotor.set(0);
 		}
 					
-		if (xbox.getBumper() == true) {
-			testSolenoid.set(DoubleSolenoid.Value.kForward);
-		} else {
-			testSolenoid.set(DoubleSolenoid.Value.kReverse);
-		}
+//		if (xbox.getBumper() == true) {
+//			shooterSolenoidOne.set(DoubleSolenoid.Value.kForward);
+//			shooterSolenoidTwo.set(DoubleSolenoid.Value.kForward);
+//		} else {
+//			shooterSolenoidOne.set(DoubleSolenoid.Value.kReverse);
+//			shooterSolenoidTwo.set(DoubleSolenoid.Value.kReverse);
+//		}
 	}
 
 	@Override
