@@ -65,17 +65,17 @@ public class Robot extends IterativeRobot {
 		// I kept it before everything just as a precaution
 		oi               = new OI();
 		
-		// leftTrigger      = new Joystick(1);
-		// rightTrigger     = new Joystick(1);
+		leftTrigger      = new Joystick(1);
+		rightTrigger     = new Joystick(1);
 		xbox             = new XboxController(1);
 		
 		// Drive Controllers
-		// TODO Put in the right PWD for. every. single. talon.
-		// frontLeftSide    = new Talon(0);
-		// rearLeftSide     = new Talon(1);
-		// frontRightSide   = new Talon(2);
-		// rearRightSide    = new Talon(3);
-		// mainDrive        = new RobotDrive(frontLeftSide, rearLeftSide, frontRightSide, rearRightSide);
+		// TODO Put in correct PWD values
+		frontLeftSide    = new Talon(0);
+		rearLeftSide     = new Talon(1);
+		frontRightSide   = new Talon(2);
+		rearRightSide    = new Talon(3);
+		mainDrive        = new RobotDrive(frontLeftSide, rearLeftSide, frontRightSide, rearRightSide);
 		
 		// Talons
 		pickUpMotor      = new Talon(4);
@@ -84,9 +84,10 @@ public class Robot extends IterativeRobot {
 		shooterMotorTwo  = new Talon(3);
 		
 		shooterSolenoidOne = new DoubleSolenoid(0,1);
-		// shooterSolenoidTwo = new DoubleSolenoid();
+		shooterSolenoidTwo = new DoubleSolenoid(2,3);
 			
 		// Autonomous Recorder
+		actions = new XboxActionRecorder(); 
 		actions.setMethod(this, "robotOperation", DriverInput.class).
 			setUpButton(xbox, 1).
 			setDownButton(xbox, 2).
@@ -132,8 +133,8 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-//		DriverInput.setRecordTime();
-//		actions.teleopInit();
+		DriverInput.setRecordTime();
+		actions.teleopInit();
 	}
 
 	@Override
