@@ -63,7 +63,6 @@ public class Robot extends IterativeRobot {
 		// load subsystems before, commands after - don't move it or you'll
 		// get a lot of errors. This code does not have either so
 		// I kept it before everything just as a precaution
-		
 		oi               = new OI();
 		
 		// leftTrigger      = new Joystick(1);
@@ -88,7 +87,10 @@ public class Robot extends IterativeRobot {
 		// shooterSolenoidTwo = new DoubleSolenoid();
 			
 		// Autonomous Recorder
-		actions.setMethod(this, "robotOperation", DriverInput.class).setUpButton(xbox, 1).setDownButton(xbox, 2).setRecordButton(xbox, 3);
+		actions.setMethod(this, "robotOperation", DriverInput.class).
+			setUpButton(xbox, 1).
+			setDownButton(xbox, 2).
+			setRecordButton(xbox, 3);
 		DriverInput.nameInput("Left-Trigger-Y-Axis");
 		DriverInput.nameInput("Right-Trigger-Y-Axis");
 	}
