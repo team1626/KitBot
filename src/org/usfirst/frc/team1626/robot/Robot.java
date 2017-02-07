@@ -19,8 +19,8 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 // import org.usfirst.frc.team1626.robot.commands.ExampleCommand;
 // import org.usfirst.frc.team1626.robot.subsystems.ExampleSubsystem;
 /**
- * Kitbot - This is a simple iterative robot with a TankDrive and
- * a simple extending piston controlled by an XboxController
+ * Kitbot - This WAS supposed to be a simple iterative robot with a TankDrive and
+ * a simple extending piston controlled by an XboxController but then testing stuff
  * 
  * @author Rohan Mishra & Team 1626
  * @version 1.0
@@ -64,7 +64,6 @@ public class Robot extends IterativeRobot {
 		// get a lot of errors. This code does not have either so
 		// I kept it before everything just as a precaution
 		
-		// TODO Use the right robot type ripppp
 		oi               = new OI();
 		
 		// leftTrigger      = new Joystick(1);
@@ -72,6 +71,7 @@ public class Robot extends IterativeRobot {
 		xbox             = new XboxController(1);
 		
 		// Drive Controllers
+		// TODO Put in the right PWD for. every. single. talon.
 		// frontLeftSide    = new Talon(0);
 		// rearLeftSide     = new Talon(1);
 		// frontRightSide   = new Talon(2);
@@ -89,8 +89,8 @@ public class Robot extends IterativeRobot {
 			
 		// Autonomous Recorder
 		actions.setMethod(this, "robotOperation", DriverInput.class).setUpButton(xbox, 1).setDownButton(xbox, 2).setRecordButton(xbox, 3);
-//		DriverInput.nameInput("Left-Trigger-Y-Axis");
-//		DriverInput.nameInput("Right-Trigger-Y-Axis");
+		DriverInput.nameInput("Left-Trigger-Y-Axis");
+		DriverInput.nameInput("Right-Trigger-Y-Axis");
 	}
 
 	@Override
